@@ -6,7 +6,7 @@ import flixel.util.FlxColor;
 
 class Paddle extends FlxSprite
 {
-	public static inline var SPEED:Float = 200;
+	public static inline var SPEED:Float = 300;
 
 	public function new():Void
 	{
@@ -27,9 +27,6 @@ class Paddle extends FlxSprite
 
 	override public function update(elapsed:Float):Void
 	{
-		super.update(elapsed);
-
-		velocity.x = 0;
 		if (FlxG.keys.anyPressed([A, LEFT, J]))
 		{
 			// MOVE LEFT
@@ -40,6 +37,9 @@ class Paddle extends FlxSprite
 			// MOVE RIGHT
 			velocity.x = SPEED;
 		}
+
+		super.update(elapsed);
+		velocity.x = 0;
 
 		if (x < 4)
 			x = 4;

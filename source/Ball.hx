@@ -20,6 +20,8 @@ class Ball extends FlxSprite
 
 	public var currentSpeed:Float;
 
+	public var ready:Bool = false;
+
 	public function new():Void
 	{
 		super();
@@ -32,8 +34,9 @@ class Ball extends FlxSprite
 	{
 		revive();
 		screenCenter();
-		y = FlxG.height - 12 - height;
+		y = FlxG.height - 16 - height;
 		velocity.set();
+		ready = false;
 	}
 
 	public function launch():Void
@@ -42,10 +45,21 @@ class Ball extends FlxSprite
 		launchAngle -= 90;
 		velocity.x = currentSpeed = START_SPEED;
 		velocity.rotate(FlxPoint.weak(), launchAngle);
+		ready = true;
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+	}
+
+	public function hitPaddle(PMid:Float):Void
+	{
+		var bPolar:FlxPoint = FlxAngle.getPolarCoords(velocity.x, velocity.y);
+
+		var diff:Float = ((x + (width / 2)) - PMid) / PMid;
+
+		var newA:Float = bPolar.y + (180 * diff);
+		velocity.set(bPolar.x, 0).rotate(FlxPoint.weak(), newA);
 	}
 }
